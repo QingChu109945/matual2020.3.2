@@ -1,0 +1,80 @@
+1. 程序实现目标： 输入一个字符串，将其各个字符对应的ASCII值加5后，输出结果。
+import java.util.Scanner;
+ 
+/**
+ * @author yanwu
+ *
+ */
+public class Test01
+{
+	public static final String REGEX = "[a-z]+";
+	
+	public static void main(String[] args)
+	{
+		System.out.println("Input the string:");
+		Scanner scan = new Scanner(System.in);
+		String str = scan.nextLine();
+		new Test01().encrypt(str);
+	}
+	
+	//加密算法
+	public void encrypt(String str)
+	{
+		if (!str.matches(REGEX))
+		{
+			return;
+		}
+		char[] ch = str.toCharArray();
+		for (char c : ch)
+		{
+			if (c + 5 > 'z')
+			{
+				c = (char)(c - 21);
+			}
+			else
+			{
+				c = (char)(c + 5);
+			}
+			
+			System.out.print(c);
+		}
+	}
+}
+
+————————————————
+版权声明：本文为CSDN博主「Ayanzing」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/u011445269/article/details/36671875
+2. 程序实现目标：求一个整型数组中元素的平均值，并统计其中大于和小于此平均值的元素的个数。
+ /* 
+ @author zxy 
+ * 
+ */
+  public class Num05 
+   {
+     public static void main(String[] args)
+       {
+          Scanner scanner=new Scanner(System.in);
+          String str1=scanner.nextLine();
+          int len=Integer.parseInt(str1);
+          int[] arr=new int[len];
+          int sum=0;
+          for(int i=0;i<len;i++)
+             {
+               arr[i]=scanner.nextInt();sum+=arr[i];
+             }
+             int avg=sum/len;
+             int count1=0;
+             int count2=0;
+             for(int i=0;iavg)
+               {count1++;}
+               if(arr[i]<avg)
+               {count2++;}
+        }
+        System.out.println("整形数组中元素的平均值为："+avg);
+        System.out.println("大于此平均值的元素的个数："+count1);
+        System.out.println("小于此平均值的元素的个数："+count2);
+        }
+      }
+————————————————
+版权声明：本文为CSDN博主「追梦卓越-欢迎大家评论指正」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/hahajji/article/details/57086035
