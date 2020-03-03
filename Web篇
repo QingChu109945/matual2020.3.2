@@ -22,3 +22,118 @@ static变量在Java中是属于类的，它在所有的实例中的值是一样�
 方法的重写overriding和重载overloading是Java多态性的不同表现。重写overriding是父类与子类之间多态性的一种表现，重载overloading是一个类中多态性的不同表现。
 如果在子类中定义某方法与其父类有相同的名称和参数，即该方法被重写overriding。子类的对象使用这个方法时，将调用的子类中的定义，对他而言，父类中的定义如同被屏蔽了。
 如果在一个类中定义了多个同名的方法，它们或有不同的参数个数或压迫不同的参数类型，则称该方法被重载。overloading的方法是可以改变返回值的类型。
+10.Java不支持多继承。每个类只能集成一个类，但是可以实现多个接口
+11.接口和抽象类的区别是什么
+Java提供和支持创建抽象类和接口。它们的实现有共同点，不同点在于：
+• 接口中所有的方法隐含的都是抽象的。象和非抽而抽象类则可以同时包含抽象的方法。
+• 类可以实现很多个接口，但是只能继承一个抽象类
+• 类如果要实现一个接口，它必须要实现接口声明的所有方法。但是，类可以不实现抽象类声明的
+所有方法，当然，在这种情况下，类也必须得声明成是抽象的。
+• 抽象类可以在不提供接口方法实现的情况下实现接口。
+• Java接口中声明的变量默认都是final的。抽象类可以包含非final的变量。
+• Java接口中的成员函数默认是public的。抽象类的成员函数可以是private，protected或者是
+public。
+• 接口是绝对抽象的，不可以被实例化。抽象类也不可以被实例化，但是，如果它包含main方法
+的话是可以被调用的。
+也可以参考JDK8中抽象类和接口的区别
+12.什么是值传递和引用传递？
+对象被值传递，意味着传递了对象的一个副本。因此，就算是改变了对象副本，也不会影响源对象的值。
+对象被引用传递，意味着传递的并不是实际的对象，而是对象的引用。因此，外部对引用对象所做的改变会反映到所有的对象上。
+13.创建线程有几种不同的方式？你喜欢哪一种？为什么？
+有三种方式可以用来创建线程：
+• 继承Thread类
+• 实现Runnable接口
+• 应用程序可以使用Executor框架来创建线程池
+实现Runnable接口这种方式更受欢迎，因为这不需要继承Thread类。在应用设计中已经继承了别的对象的情况下，
+这需要多继承（而Java不支持多继承），只能实现接口。同时，线程池也是非常高效的，很容易实现和使用。
+14.同步方法和同步代码块的区别是什么？
+在Java语言中，每一个对象有一把锁。线程可以使用synchronized关键字来获取对象上的锁。
+synchronized关键字可应用在方法级别(粗粒度锁：这里的锁对象可以是This)或者是代码块级别
+同步代码块还可以更细粒度的控制锁(细粒度锁：这里的锁对象就是任意对象)。
+15.什么是死锁(deadlock)？
+两个进程都在等待对方执行完毕才能继续往下执行的时候就发生了死锁。结果就是两个进程都陷入了无限的等待中。
+16.什么是数据库事务，事务四大特性是什么？
+数据库事务( transaction）是访问并可能操作各种数据项的一个数据库操作序列，这些操作要么全部执行，要么全部不执行，是一个不可分割的工作单位。
+事务由事务开始与事务结束之间执行的全部数据库操作组成。
+ACID，指数据库事务正确执行的四个基本要素的缩写。包含：原子性（Atomicity）、一致性
+（Consistency）、隔离性（Isolation）、持久性（Durability）。
+17.什么是脏读、幻读、不可重复读？
+脏读：读取未提交数据
+不可重复读：前后多次读取，数据内容不一致
+幻读：前后多次读取，数据总量不一致
+18.mysql两个存储引擎innodb和myisam区别是什么？
+最主要的区别是：MyISAM表不支持事务、不支持行级锁、不支持外键。 InnoDB表支持事
+务、支持行级锁、支持外键。
+19.说说Spring和Spring Boot的区别。
+主要是自动化配置，答出这个最重要。
+20.说说什么是IOC和AOP。
+IOC即控制反转（Inversionof Control）是Spring的核心，即将创建当前类实例的工作的控制权交给第三来完成并交给spring容器进行管理。
+AOP即面向切面编程，可用于抽象具有非业务，以及通用这两大特点的代码统一应用于业务代码，比如实现统一的日志管理。
+21.请用Java实现一个死锁
+原文链接：https://blog.csdn.net/leosha/article/details/45966093
+package 死锁;
+class A{
+    synchronized void funA(B b){
+        String name = Thread.currentThread().getName();
+        System.out.println(name+"进入A.foo");
+        /*try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
+        System.out.println(name+"调用B类的last方法");
+        b.last();
+    }
+    synchronized void last()
+    {
+        System.out.println("A的last方法");
+    }
+}
+class B{
+    synchronized void funB(A a){
+        String name = Thread.currentThread().getName();
+        System.out.println(name+"进入B.foo");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println(name+"调用A类的last方法");
+        a.last();
+    }
+    synchronized void last()
+    {
+        System.out.println("B的last方法");
+    }
+}
+public class DeadLockDemo implements Runnable{
+    A a=new A();
+    B b=new B();
+    public DeadLockDemo() {
+        // TODO Auto-generated constructor stub
+        new Thread(this).start();
+        a.funA(b);
+
+
+
+    }
+    public void run(){
+        b.funB(a);
+    }
+    public static void main(String []args)
+    {
+
+            new DeadLockDemo();
+
+    }
+}
+22.JAVA中高访问量高并发的问题怎么解决?
+   1.尽量使用缓存，包括用户缓存，信息缓存等，多花内存来做缓存，可以大量减少与数据库的交互，提高性能。
+   2.用jprofiler等工具找出性能瓶颈，减少额外开销。
+   3.优化数据库结构多做索引，提高查询效率。
+   4.优化数据库查询语句，减少直接使用hibernate等工具直接生成语句
+   5.统计的功能尽量做缓存，或按每天一统计或定时统计相关报表。
+   6.能使用静态页面的地方尽量使用，减少容器的解析
+   7.解决以上问题后，使用服务器集群来解决单台的瓶颈问题
